@@ -14,16 +14,20 @@
 <body>
     <div id="app">
         <nav class="navbar bg-body-secondary">
-            <div class="container">
+            <div class="container d-flex justify-content-between">
                 <a class="navbar-brand p-2" href="#">
                     After School Club
                 </a>
+                <button type="button" class="btn btn-light">Checkout
+                    <span v-if="count > 0" v-text="count" class="badge bg-danger"></span>
+                </button>
             </div>
         </nav>
-
         <div class="container">
+            <h3 class="my-4">After school club and activities</h3>
+            <input type="text" class="form-control" placeholder="Search">
             <div class="row">
-                <div v-for="lesson in lessons" :key="id" class="col-12 col-sm-12 col-md-6 col-lg-4 g-3">
+                <div v-for="lesson in lessons" :key="lesson.id" class="col-12 col-sm-12 col-md-6 col-lg-4 g-3">
                     <div class="d-flex justify-content-between border border-2 rounded-2 p-4">
                         <div class="p-2">
                             <div class="d-flex">
@@ -42,17 +46,18 @@
                                 <div class="px-2">Spaces:</div>
                                 <div v-text="lesson.spaces">5</div>
                             </div>
+                            <input type="button" @click="addClub(lesson.id)" class="btn btn-primary p-2 mt-2" value="Add to cart" />
                         </div>
                         <figure class="p-2">
                             <img v-bind:src="lesson.image">
                         </figure>
                     </div>
+
                 </div>
             </div>
         </div>
+    </div>
 
-    </div>
-    </div>
 </body>
 <script src="script.js"></script>
 
