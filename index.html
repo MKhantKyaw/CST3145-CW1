@@ -18,8 +18,11 @@
                 <a class="navbar-brand p-2" href="#">
                     After School Club
                 </a>
-                <button type="button" class="btn btn-light">Checkout
-                    <span v-if="count > 0" v-text="count" class="badge bg-danger"></span>
+                <button v-if="cartItemCount > 0" type="button" class="btn btn-light">Checkout
+                    <span v-if="cartItemCount > 0" class="badge bg-danger">{{cartItemCount}}</span>
+                </button>
+                <button disabled="disabled" v-else type="button" class="btn btn-light">Checkout
+                    <span v-show="cartItemCount > 0" class="badge bg-danger">{{cartItemCount}}</span>
                 </button>
             </div>
         </nav>
@@ -46,7 +49,8 @@
                                 <div class="px-2">Spaces:</div>
                                 <div v-text="lesson.spaces">5</div>
                             </div>
-                            <input type="button" @click="addClub(lesson.id)" class="btn btn-primary p-2 mt-2" value="Add to cart" />
+                            <input type="button" v-if="canAddToCart(lesson.id)" @click="addClub(lesson.id)" class="btn btn-primary p-2 mt-2" value="Add to cart" />
+                            <input type="button" v-else disabled="disabled" @click="addClub(lesson.id)" class="btn btn-primary p-2 mt-2" value="Add to cart" />
                         </div>
                         <figure class="p-2">
                             <img v-bind:src="lesson.image">
