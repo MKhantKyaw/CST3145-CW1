@@ -17,7 +17,10 @@ const app = new Vue({
             if (selectedLesson) {
                 return selectedLesson.spaces > 0
             } else return false
-        }
+        },
+        redirect: function () {
+            window.location.href = "cart.html"
+        },
     },
     computed: {
         cartItemCount: function () {
@@ -29,7 +32,12 @@ const app = new Vue({
             return count
         },
 
-
+        searchItem: function () {
+            return this.lessons.filter((lesson) =>
+                lesson.subject.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                lesson.location.toLowerCase().includes(this.searchQuery.toLowerCase())
+            );
+        }
     },
     data: {
         sitename: "After School Club",
@@ -43,7 +51,7 @@ const app = new Vue({
         },
         {
             id: 1,
-            subject: "Math",
+            subject: "English",
             location: "London",
             price: 100,
             spaces: 5,
@@ -51,14 +59,15 @@ const app = new Vue({
         },
         {
             id: 2,
-            subject: "Math",
+            subject: "Science",
             location: "Yangon",
             price: 100,
             spaces: 5,
-            image: "images/math.png",        },
+            image: "images/math.png",
+        },
         {
             id: 3,
-            subject: "Math",
+            subject: "Biology",
             location: "London",
             price: 100,
             spaces: 5,
@@ -66,13 +75,16 @@ const app = new Vue({
         },
         {
             id: 4,
-            subject: "Math",
+            subject: "Sports",
             location: "London",
             price: 100,
             image: "images/math.png",
             spaces: 5,
         },
         ],
-        carts: []
+        carts: [],
+        searchQuery: ""
     }
 });
+
+
