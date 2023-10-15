@@ -37,6 +37,18 @@ const app = new Vue({
                 lesson.subject.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
                 lesson.location.toLowerCase().includes(this.searchQuery.toLowerCase())
             );
+        },
+        sortItem: function () {
+            const sortedItem = [...this.searchItem]
+            return sortedItem.sort((a, b) => {
+                const sortingOrder = this.sortOrder === 'ascending' ? 1 : -1
+                switch (this.selectedSortCategory) {
+                    case "subject": return sortingOrder * a.subject.toLowerCase().localeCompare(b.subject.toLowerCase()); break;
+                    case "location": return sortingOrder * a.location.toLowerCase().localeCompare(b.location.toLowerCase()); break;
+                    case "price": return sortingOrder * (a.price > b.price ? 1 : -1)
+                    case "spaces": return sortingOrder * (a.spaces > b.spaces ? 1 : -1)
+                }
+            })
         }
     },
     data: {
@@ -52,38 +64,40 @@ const app = new Vue({
         {
             id: 1,
             subject: "English",
-            location: "London",
-            price: 100,
-            spaces: 5,
+            location: "Birmingham",
+            price: 1000,
+            spaces: 15,
             image: "images/math.png",
         },
         {
             id: 2,
             subject: "Science",
-            location: "Yangon",
-            price: 100,
-            spaces: 5,
+            location: "Birmingham",
+            price: 10,
+            spaces: 22,
             image: "images/math.png",
         },
         {
             id: 3,
             subject: "Biology",
-            location: "London",
-            price: 100,
-            spaces: 5,
+            location: "Manchester",
+            price: 20,
+            spaces: 3,
             image: "images/math.png",
         },
         {
             id: 4,
             subject: "Sports",
-            location: "London",
-            price: 100,
+            location: "Liverpool",
+            price: 110,
             image: "images/math.png",
-            spaces: 5,
+            spaces: 9,
         },
         ],
         carts: [],
-        searchQuery: ""
+        searchQuery: "",
+        selectedSortCategory: "subject",
+        sortOrder: "ascending"
     }
 });
 
