@@ -9,7 +9,7 @@ const lessons = [
     },
     {
         id: 2,
-        subject: "Science Explorers",
+        subject: "Science",
         location: "Edinburgh",
         price: 90,
         spaces: 12,
@@ -17,7 +17,7 @@ const lessons = [
     },
     {
         id: 3,
-        subject: "Art and Crafts Workshop",
+        subject: "Arts",
         location: "Birmingham",
         price: 70,
         spaces: 10,
@@ -25,7 +25,7 @@ const lessons = [
     },
     {
         id: 4,
-        subject: "Drama Society",
+        subject: "Drama",
         location: "London",
         price: 100,
         spaces: 10,
@@ -33,7 +33,7 @@ const lessons = [
     },
     {
         id: 5,
-        subject: "Music Club",
+        subject: "Music",
         location: "Glasgow, UK",
         price: 85,
         spaces: 15,
@@ -58,7 +58,7 @@ const lessons = [
 
     {
         id: 8,
-        subject: "Martial Arts Class",
+        subject: "Martial Arts",
         location: "Liverpool",
         price: 95,
         spaces: 10,
@@ -67,7 +67,7 @@ const lessons = [
 
     {
         id: 9,
-        subject: "Language Club (French)",
+        subject: "Language (French)",
         location: "Bristol",
         price: 80,
         spaces: 12,
@@ -76,7 +76,7 @@ const lessons = [
 
     {
         id: 10,
-        subject: "Astronomy Society",
+        subject: "Astronomy",
         location: "Cardiff",
         price: 90,
         spaces: 10,
@@ -85,7 +85,7 @@ const lessons = [
 
     {
         id: 11,
-        subject: "Chess Club",
+        subject: "Chess",
         location: "Leeds",
         price: 75,
         spaces: 12,
@@ -94,7 +94,7 @@ const lessons = [
 
     {
         id: 12,
-        subject: "Robotics Team",
+        subject: "Robotics",
         location: "Newcastle",
         price: 110,
         spaces: 8,
@@ -103,7 +103,7 @@ const lessons = [
 
     {
         id: 13,
-        subject: "Dance Class",
+        subject: "Dance",
         location: "Sheffield",
         price: 85,
         spaces: 15,
@@ -112,7 +112,7 @@ const lessons = [
 
     {
         id: 14,
-        subject: "Outdoor Adventure Club",
+        subject: "Outdoor",
         location: "Brighton",
         price: 70,
         spaces: 20,
@@ -121,7 +121,7 @@ const lessons = [
 
     {
         id: 15,
-        subject: "Cooking Class",
+        subject: "Cooking",
         location: "Nottingham",
         price: 95,
         spaces: 10,
@@ -130,7 +130,7 @@ const lessons = [
 
     {
         id: 16,
-        subject: "Yoga Club",
+        subject: "Yoga",
         location: "Belfast",
         price: 80,
         spaces: 15,
@@ -139,7 +139,7 @@ const lessons = [
 
     {
         id: 17,
-        subject: "Theater Group",
+        subject: "Theater",
         location: "Leicester",
         price: 100,
         spaces: 10,
@@ -148,7 +148,7 @@ const lessons = [
 
     {
         id: 18,
-        subject: "Environmental Science Club",
+        subject: "Environmental",
         location: "York",
         price: 75,
         spaces: 10,
@@ -157,7 +157,7 @@ const lessons = [
 
     {
         id: 19,
-        subject: "Basketball Club",
+        subject: "Basketball",
         location: "Aberdeen",
         price: 90,
         spaces: 12,
@@ -166,7 +166,7 @@ const lessons = [
 
     {
         id: 20,
-        subject: "STEM Camp",
+        subject: "STEM",
         location: "Southampton",
         price: 120,
         spaces: 8,

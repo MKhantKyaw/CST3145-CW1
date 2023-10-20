@@ -70,7 +70,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row my-4">
                     <div v-for="lesson in sortItem" :key="lesson.id" class="col-12 col-sm-12 col-md-6 col-lg-4 g-3">
                         <div class="d-flex justify-content-between border border-2 rounded-2 p-4">
                             <div class="p-2">
@@ -103,42 +103,59 @@
                 </div>
             </div>
 
-            <!-- cart and checkout -->
-            <div v-else class="my-4">
-                <h3>Shopping cart</h3>
-                <div class="row">
-                    <div v-for="cart in carts" :key="cart.id" class="col-12 col-sm-12 col-md-6 col-lg-4 g-3">
-                        <div class="d-flex justify-content-between border border-2 rounded-2 p-4">
-                            <div class="p-2">
-                                <div class="d-flex">
-                                    <div class="px-2">Subject:</div>
-                                    <div v-text="cart.subject">Math</div>
+                <!-- cart and checkout -->
+                <div v-else class="my-4">
+                    <h3>Shopping cart</h3>
+                    <div class="row">
+                        <div v-for="cart in carts" :key="cart.id" class="col-12 col-sm-12 col-md-6 col-lg-4 g-3">
+                            <div class="d-flex justify-content-between border border-2 rounded-2 p-4">
+                                <div class="p-2">
+                                    <div class="d-flex">
+                                        <div class="px-2">Subject:</div>
+                                        <div v-text="cart.subject">Math</div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="px-2">Location:</div>
+                                        <div v-text="cart.location">London</div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="px-2">Price:</div>
+                                        <div v-text="cart.price">100</div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="px-2">Spaces:</div>
+                                        <div v-text="cart.spaces">5</div>
+                                    </div>
+                                    <input type="button" class="btn btn-primary p-2 mt-2" value="Remove"
+                                        @click="removeFromCart(cart.id)" />
                                 </div>
-                                <div class="d-flex">
-                                    <div class="px-2">Location:</div>
-                                    <div v-text="cart.location">London</div>
-                                </div>
-                                <div class="d-flex">
-                                    <div class="px-2">Price:</div>
-                                    <div v-text="cart.price">100</div>
-                                </div>
-                                <div class="d-flex">
-                                    <div class="px-2">Spaces:</div>
-                                    <div v-text="cart.spaces">5</div>
-                                </div>
-                                <input type="button" class="btn btn-primary p-2 mt-2" value="Remove"
-                                    @click="removeFromCart(cart.id)" />
+                                <figure class="p-2">
+                                    <img v-bind:src="cart.image">
+                                </figure>
                             </div>
-                            <figure class="p-2">
-                                <img v-bind:src="cart.image">
-                            </figure>
                         </div>
+                    </div>
+
+                    <!-- user form -->
+                    <div class="mt-5">
+                        <h3>Checkout</h3>
+                        <form class="mt-2" @submit="handleSubmit" method="POST">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Name</label>
+                                <input v-model="name" type="text" class="form-control" id="name">
+                                <span class="text-danger">{{errorMessage.name}}</span>
+                            </div>
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Phone</label>
+                                <input v-model="phone" type="text" class="form-control" id="phone">
+                                <span class="text-danger">{{errorMessage.phone}}</span>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
 </body>
 <script src="script.js"></script>
 

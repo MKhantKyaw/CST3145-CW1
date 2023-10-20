@@ -24,9 +24,34 @@ const app = new Vue({
         },
         removeFromCart: function (id) {
             const cartItem = this.carts.find((cart) => cart.id === id)
-            if(cartItem) {
+            if (cartItem) {
                 this.carts = this.carts.filter((cart) => cart.id !== id)
             }
+        },
+        handleSubmit: function (e) {
+            this.errorMessage.name = ""
+            this.errorMessage.phone = ""
+            if (this.name && this.phone) {
+                const regex = new RegExp("^[0-9]*$")
+                if (regex.test(this.phone)) {
+                    alert("Dear " + this.name + "\nYour order has been submitted.")
+                    window.location('/')
+                    return true
+                }
+                else {
+                    e.preventDefault();
+                    this.errorMessage.phone = "Please enter valid phone number"
+                }
+            }
+            else if (!this.name) {
+                e.preventDefault()
+                this.errorMessage.name = "Please enter your name"
+            }
+            else if (!this.phone) {
+                e.preventDefault()
+                this.errorMessage.phone = "Please enter your phone number"
+            }
+            return false
         }
 
     },
@@ -69,6 +94,9 @@ const app = new Vue({
         selectedSortCategory: "subject",
         sortOrder: "ascending",
         currentPage: "activities",
+        name: null,
+        phone: null,
+        errorMessage: { name: "", phone: "" }
     }
 });
 
