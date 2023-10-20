@@ -7,7 +7,8 @@ const app = new Vue({
                 cartItem.count++
             }
             else {
-                this.carts.push({ id: id, count: 1 })
+                const addedLesson = this.lessons.find((lesson) => lesson.id === id)
+                this.carts.push({ ...addedLesson, count: 1 })
             }
             const selectedLesson = this.lessons.find((lesson) => lesson.id === id)
             selectedLesson.spaces--
@@ -18,9 +19,16 @@ const app = new Vue({
                 return selectedLesson.spaces > 0
             } else return false
         },
-        redirect: function () {
-            window.location.href = "cart.html"
+        changePage: function () {
+            this.currentPage = this.currentPage === "activities" ? "cart" : "activities"
         },
+        removeFromCart: function (id) {
+            const cartItem = this.carts.find((cart) => cart.id === id)
+            if(cartItem) {
+                this.carts = this.carts.filter((cart) => cart.id !== id)
+            }
+        }
+
     },
     computed: {
         cartItemCount: function () {
@@ -49,7 +57,9 @@ const app = new Vue({
                     case "spaces": return sortingOrder * (a.spaces > b.spaces ? 1 : -1)
                 }
             })
-        }
+        },
+
+
     },
     data: {
         sitename: "After School Club",
@@ -97,7 +107,8 @@ const app = new Vue({
         carts: [],
         searchQuery: "",
         selectedSortCategory: "subject",
-        sortOrder: "ascending"
+        sortOrder: "ascending",
+        currentPage: "activities",
     }
 });
 

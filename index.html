@@ -7,80 +7,132 @@
     <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="style.css">
     <title>Shopping Cart</title>
 </head>
 
 <body>
     <div id="app">
+        <!-- navbar -->
         <nav class="navbar bg-body-secondary">
             <div class="container d-flex justify-content-between">
                 <a class="navbar-brand p-2" href="#">
                     After School Club
                 </a>
-                <button v-if="cartItemCount > 0" @click="redirect" type="button" class="btn btn-light">Checkout
-                    <span v-if="cartItemCount > 0" class="badge bg-danger">{{cartItemCount}}</span>
+                <button v-if="cartItemCount > 0 || currentPage === 'cart'" @click="changePage" type="button"
+                    class="btn btn-light">
+                    <span class="fas fa-cart-plus"></span>
+                    Checkout
+                    <span v-if="cartItemCount > 0" class="badge bg-danger">
+                        {{cartItemCount}}
+                    </span>
                 </button>
-                <button disabled="disabled" v-else @click="redirect" type="button" class="btn btn-light">Checkout
-                    <span v-show="cartItemCount > 0" class="badge bg-danger">{{cartItemCount}}</span>
+                <button disabled="disabled" v-else @click="changePage" type="button" class="btn btn-light">
+                    <span class="fas fa-cart-plus"></span>
+                    Checkout
+                    <span v-if="cartItemCount > 0" class="badge bg-danger">{{cartItemCount}}</span>
                 </button>
             </div>
         </nav>
+
+
         <div class="container">
-            <h3 class="my-4">After school club and activities</h3>
-            <input type="text"  v-model="searchQuery" class="form-control search" placeholder="Search">
-            <div class="my-4">
-                <select v-model="selectedSortCategory" class="form-select mb-4">
-                    <option value="subject" selected>Subject</option>
-                    <option value="location">Location</option>
-                    <option value="price">Price</option>
-                    <option value="spaces">Spaces</option>
-                </select>
-                <div class="d-flex">
-                    <div class="form-check mx-2">
-                        <input v-model="sortOrder" value="ascending" class="form-check-input" type="radio" name="sort" id="ascendingOrder" checked>
-                        <label class="form-check-label" for="ascendingOrder">
-                            Ascending
-                        </label>
+
+            <!-- activities  -->
+            <div v-if="currentPage === 'activities'">
+                <h3 class="my-4">After school club and activities</h3>
+                <input type="text" v-model="searchQuery" class="form-control search" placeholder="Search">
+                <div class="my-4">
+                    <select v-model="selectedSortCategory" class="form-select mb-4">
+                        <option value="subject" selected>Subject</option>
+                        <option value="location">Location</option>
+                        <option value="price">Price</option>
+                        <option value="spaces">Spaces</option>
+                    </select>
+                    <div class="d-flex">
+                        <div class="form-check mx-2">
+                            <input v-model="sortOrder" value="ascending" class="form-check-input" type="radio"
+                                name="sort" id="ascendingOrder" checked>
+                            <label class="form-check-label" for="ascendingOrder">
+                                Ascending
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input v-model="sortOrder" value="descending" class="form-check-input" type="radio"
+                                name="sort" id="descendingOrder">
+                            <label class="form-check-label" for="descendingOrder">
+                                Descending
+                            </label>
+                        </div>
                     </div>
-                    <div class="form-check">
-                        <input v-model="sortOrder" value="descending" class="form-check-input" type="radio" name="sort" id="descendingOrder">
-                        <label class="form-check-label" for="descendingOrder">
-                            Descending
-                        </label>
+                </div>
+                <div class="row">
+                    <div v-for="lesson in sortItem" :key="lesson.id" class="col-12 col-sm-12 col-md-6 col-lg-4 g-3">
+                        <div class="d-flex justify-content-between border border-2 rounded-2 p-4">
+                            <div class="p-2">
+                                <div class="d-flex">
+                                    <div class="px-2">Subject:</div>
+                                    <div v-text="lesson.subject">Math</div>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="px-2">Location:</div>
+                                    <div v-text="lesson.location">London</div>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="px-2">Price:</div>
+                                    <div v-text="lesson.price">100</div>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="px-2">Spaces:</div>
+                                    <div v-text="lesson.spaces">5</div>
+                                </div>
+                                <input type="button" v-if="canAddToCart(lesson.id)" @click="addClub(lesson.id)"
+                                    class="btn btn-primary p-2 mt-2" value="Add to cart" />
+                                <input type="button" v-else disabled="disabled" @click="addClub(lesson.id)"
+                                    class="btn btn-primary p-2 mt-2" value="Add to cart" />
+                            </div>
+                            <figure class="p-2">
+                                <img v-bind:src="lesson.image">
+                            </figure>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div v-for="lesson in sortItem" :key="lesson.id" class="col-12 col-sm-12 col-md-6 col-lg-4 g-3">
-                    <div class="d-flex justify-content-between border border-2 rounded-2 p-4">
-                        <div class="p-2">
-                            <div class="d-flex">
-                                <div class="px-2">Subject:</div>
-                                <div v-text="lesson.subject">Math</div>
-                            </div>
-                            <div class="d-flex">
-                                <div class="px-2">Location:</div>
-                                <div v-text="lesson.location">London</div>
-                            </div>
-                            <div class="d-flex">
-                                <div class="px-2">Price:</div>
-                                <div v-text="lesson.price">100</div>
-                            </div>
-                            <div class="d-flex">
-                                <div class="px-2">Spaces:</div>
-                                <div v-text="lesson.spaces">5</div>
-                            </div>
-                            <input type="button" v-if="canAddToCart(lesson.id)" @click="addClub(lesson.id)"
-                                class="btn btn-primary p-2 mt-2" value="Add to cart" />
-                            <input type="button" v-else disabled="disabled" @click="addClub(lesson.id)"
-                                class="btn btn-primary p-2 mt-2" value="Add to cart" />
-                        </div>
-                        <figure class="p-2">
-                            <img v-bind:src="lesson.image">
-                        </figure>
-                    </div>
 
+            <!-- cart and checkout -->
+            <div v-else class="my-4">
+                <h3>Shopping cart</h3>
+                <div class="row">
+                    <div v-for="cart in carts" :key="cart.id" class="col-12 col-sm-12 col-md-6 col-lg-4 g-3">
+                        <div class="d-flex justify-content-between border border-2 rounded-2 p-4">
+                            <div class="p-2">
+                                <div class="d-flex">
+                                    <div class="px-2">Subject:</div>
+                                    <div v-text="cart.subject">Math</div>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="px-2">Location:</div>
+                                    <div v-text="cart.location">London</div>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="px-2">Price:</div>
+                                    <div v-text="cart.price">100</div>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="px-2">Spaces:</div>
+                                    <div v-text="cart.spaces">5</div>
+                                </div>
+                                <input type="button" class="btn btn-primary p-2 mt-2" value="Remove"
+                                    @click="removeFromCart(cart.id)" />
+                            </div>
+                            <figure class="p-2">
+                                <img v-bind:src="cart.image">
+                            </figure>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
