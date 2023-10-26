@@ -27,6 +27,8 @@ const app = new Vue({
             if (cartItem) {
                 this.carts = this.carts.filter((cart) => cart.id !== id)
             }
+            const removedLesson = this.lessons.find((lesson) => lesson.id === id)
+            removedLesson.spaces += cartItem.count
         },
         handleSubmit: function (e) {
             this.errorMessage.name = ""
