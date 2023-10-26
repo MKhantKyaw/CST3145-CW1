@@ -72,59 +72,62 @@
                 </div>
                 <div class="row my-4">
                     <div v-for="lesson in sortItem" :key="lesson.id" class="col-12 col-sm-12 col-md-6 col-lg-4 g-3">
-                        <div class="d-flex justify-content-between border border-2 rounded-2 p-4">
-                            <div class="p-2">
-                                <div class="d-flex">
-                                    <div class="px-2">Subject:</div>
-                                    <div v-text="lesson.subject">Math</div>
+                        <div class="card">
+                            <div class="d-flex justify-content-between p-4">
+                                <div class="p-2">
+                                    <div class="d-flex">
+                                        <div class="px-2">Subject:</div>
+                                        <div v-text="lesson.subject">Math</div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="px-2">Location:</div>
+                                        <div v-text="lesson.location">London</div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="px-2">Price:</div>
+                                        <div v-text="lesson.price">100</div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="px-2">Spaces:</div>
+                                        <div v-text="lesson.spaces">5</div>
+                                    </div>
+                                    <input type="button" v-if="canAddToCart(lesson.id)" @click="addClub(lesson.id)"
+                                        class="btn btn-primary p-2 mt-2" value="Add to cart" />
+                                    <input type="button" v-else disabled="disabled" @click="addClub(lesson.id)"
+                                        class="btn btn-primary p-2 mt-2" value="Add to cart" />
                                 </div>
-                                <div class="d-flex">
-                                    <div class="px-2">Location:</div>
-                                    <div v-text="lesson.location">London</div>
-                                </div>
-                                <div class="d-flex">
-                                    <div class="px-2">Price:</div>
-                                    <div v-text="lesson.price">100</div>
-                                </div>
-                                <div class="d-flex">
-                                    <div class="px-2">Spaces:</div>
-                                    <div v-text="lesson.spaces">5</div>
-                                </div>
-                                <input type="button" v-if="canAddToCart(lesson.id)" @click="addClub(lesson.id)"
-                                    class="btn btn-primary p-2 mt-2" value="Add to cart" />
-                                <input type="button" v-else disabled="disabled" @click="addClub(lesson.id)"
-                                    class="btn btn-primary p-2 mt-2" value="Add to cart" />
+                                <figure class="p-2">
+                                    <img v-bind:src="lesson.image">
+                                </figure>
                             </div>
-                            <figure class="p-2">
-                                <img v-bind:src="lesson.image">
-                            </figure>
                         </div>
                     </div>
                 </div>
             </div>
 
-                <!-- cart and checkout -->
-                <div v-else class="my-4">
-                    <h3>Shopping cart</h3>
-                    <div class="row">
-                        <div v-for="cart in carts" :key="cart.id" class="col-12 col-sm-12 col-md-6 col-lg-4 g-3">
-                            <div class="d-flex justify-content-between border border-2 rounded-2 p-4">
+            <!-- cart and checkout -->
+            <div v-else class="my-4 container">
+                <h3>Shopping cart</h3>
+                <div class="row">
+                    <div v-for="cart in carts" :key="cart.id" class="col-12 col-sm-12 col-md-6 col-lg-4 g-3">
+                        <div class="card border border-1">
+                            <div class="d-flex justify-content-between p-4">
                                 <div class="p-2">
                                     <div class="d-flex">
                                         <div class="px-2">Subject:</div>
-                                        <div v-text="cart.subject">Math</div>
+                                        <div v-text="cart.subject"></div>
                                     </div>
                                     <div class="d-flex">
                                         <div class="px-2">Location:</div>
-                                        <div v-text="cart.location">London</div>
+                                        <div v-text="cart.location"></div>
                                     </div>
                                     <div class="d-flex">
                                         <div class="px-2">Price:</div>
-                                        <div v-text="cart.price">100</div>
+                                        <div v-text="cart.price"></div>
                                     </div>
                                     <div class="d-flex">
                                         <div class="px-2">Spaces:</div>
-                                        <div v-text="cart.spaces">5</div>
+                                        <div v-text="cart.spaces"></div>
                                     </div>
                                     <input type="button" class="btn btn-primary p-2 mt-2" value="Remove"
                                         @click="removeFromCart(cart.id)" />
@@ -135,27 +138,43 @@
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <!-- user form -->
-                    <div class="mt-5">
-                        <h3>Checkout</h3>
-                        <form class="mt-2" @submit="handleSubmit" method="POST">
-                            <div class="mb-3">
-                                <label for="name" class="form-label">Name</label>
-                                <input v-model="name" type="text" class="form-control" id="name">
-                                <span class="text-danger">{{errorMessage.name}}</span>
+                <!-- user form -->
+                <div class="card p-5 mt-5">
+                    <form class="mt-2" @submit="handleSubmit" method="POST">
+                        <div class="row gx-5">
+                            <div class="col-12 col-md-6">
+                                <h3 class="mb-4">Checkout</h3>
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Name</label>
+                                    <input v-model="name" type="text" class="form-control" id="name">
+                                    <span class="text-danger">{{errorMessage.name}}</span>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="phone" class="form-label">Phone</label>
+                                    <input v-model="phone" type="text" class="form-control" id="phone">
+                                    <span class="text-danger">{{errorMessage.phone}}</span>
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <label for="phone" class="form-label">Phone</label>
-                                <input v-model="phone" type="text" class="form-control" id="phone">
-                                <span class="text-danger">{{errorMessage.phone}}</span>
+                            <div class="col-12 col-md-6">
+                                <h3 class="mb-4">Order Information</h3>
+                                <div class="d-flex my-2">
+                                    <div class="px-2">Name:</div>
+                                    <div v-text="name"></div>
+                                </div>
+                                <div class="d-flex my-2">
+                                    <div class="px-2">Phone:</div>
+                                    <div v-text="phone"></div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit</button>
                             </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
+    </div>
 </body>
 <script src="script.js"></script>
 

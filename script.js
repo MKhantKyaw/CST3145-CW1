@@ -29,6 +29,9 @@ const app = new Vue({
             }
             const removedLesson = this.lessons.find((lesson) => lesson.id === id)
             removedLesson.spaces += cartItem.count
+            if (this.carts.length === 0) {
+                this.currentPage = "activities"
+            }
         },
         handleSubmit: function (e) {
             this.errorMessage.name = ""
@@ -36,8 +39,13 @@ const app = new Vue({
             if (this.name && this.phone) {
                 const regex = new RegExp("^[0-9]*$")
                 if (regex.test(this.phone)) {
+                    this.carts = []
+                    this.errorMessage.name = ""
+                    this.errorMessage.phone = ""
+                    this.name = ""
+                    this.phone = ""
                     alert("Dear " + this.name + "\nYour order has been submitted.")
-                    window.location('/')
+                    this.currentPage = "activities"
                     return true
                 }
                 else {
