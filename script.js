@@ -33,36 +33,13 @@ const app = new Vue({
                 this.currentPage = "activities"
             }
         },
+
         handleSubmit: function (e) {
-            this.errorMessage.name = ""
-            this.errorMessage.phone = ""
-            if (this.name && this.phone) {
-                const regex = new RegExp("^[0-9]*$")
-                if (regex.test(this.phone)) {
-                    this.carts = []
-                    this.errorMessage.name = ""
-                    this.errorMessage.phone = ""
-                    this.name = ""
-                    this.phone = ""
-                    alert("Dear " + this.name + "\nYour order has been submitted.")
-                    this.currentPage = "activities"
-                    return true
-                }
-                else {
-                    e.preventDefault();
-                    this.errorMessage.phone = "Please enter valid phone number"
-                }
-            }
-            else if (!this.name) {
-                e.preventDefault()
-                this.errorMessage.name = "Please enter your name"
-            }
-            else if (!this.phone) {
-                e.preventDefault()
-                this.errorMessage.phone = "Please enter your phone number"
-            }
-            return false
-        }
+            alert("Dear " + this.name + ",\n" + "Your order is received.")
+        },
+        submitValidation: function () {
+            this.canSubmit = (phoneValidate && nameValidate) ? true : false
+        },
 
     },
     computed: {
@@ -94,6 +71,39 @@ const app = new Vue({
             })
         },
 
+        nameValidate: function () {
+            this.errorMessage.name = ""
+            if (this.name) {
+                const regex = new RegExp("^[a-zA-Z ]*$")
+                if (regex.test(this.name)) {
+                    this.errorMessage.name = ""
+                    return true
+                }
+                else {
+                    this.errorMessage.name = "Please enter valid name"
+                    return false
+                }
+            }
+
+            return 0
+        },
+
+        phoneValidate: function () {
+            this.errorMessage.phone = ""
+            if (this.phone) {
+                const regex = new RegExp("^[0-9]*$")
+                if (regex.test(this.phone)) {
+                    this.errorMessage.phone = ""
+                    return true
+                }
+                else {
+                    this.errorMessage.phone = "Please enter valid phone number"
+                    return false
+                }
+            }
+            return 0
+        },
+
 
     },
     data: {
@@ -106,6 +116,7 @@ const app = new Vue({
         currentPage: "activities",
         name: null,
         phone: null,
+        canSubmit: false,
         errorMessage: { name: "", phone: "" }
     }
 });

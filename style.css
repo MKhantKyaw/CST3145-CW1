@@ -8,6 +8,9 @@
     display: inline;
 }
 
+.display-none{
+    display: none;
+}
 
 img {
     width: 80px;

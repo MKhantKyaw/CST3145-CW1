@@ -141,23 +141,25 @@
                 </div>
 
                 <!-- user form -->
-                <div class="card p-5 mt-5">
-                    <form class="mt-2" @submit="handleSubmit" method="POST">
+                <div class="card px-5 py-4 mt-5">
+                    <form @submit="handleSubmit" method="POST">
                         <div class="row gx-5">
-                            <div class="col-12 col-md-6">
+                            <div class="col-12 col-md-6 g-3">
                                 <h3 class="mb-4">Checkout</h3>
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Name</label>
-                                    <input v-model="name" type="text" class="form-control" id="name">
+                                    <input v-model="name" v-bind:class="(this.errorMessage.name) ?  'is-invalid': ''"
+                                        type="text" class="form-control" id="name">
                                     <span class="text-danger">{{errorMessage.name}}</span>
                                 </div>
                                 <div class="mb-3">
                                     <label for="phone" class="form-label">Phone</label>
-                                    <input v-model="phone" type="text" class="form-control" id="phone">
+                                    <input v-model="phone" v-bind:class="(this.errorMessage.phone) ? 'is-invalid' : ''"
+                                        type="text" class="form-control" id="phone">
                                     <span class="text-danger">{{errorMessage.phone}}</span>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-6">
+                            <div class="col-12 col-md-6 g-3">
                                 <h3 class="mb-4">Order Information</h3>
                                 <div class="d-flex my-2">
                                     <div class="px-2">Name:</div>
@@ -167,7 +169,10 @@
                                     <div class="px-2">Phone:</div>
                                     <div v-text="phone"></div>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" v-if="nameValidate === true && phoneValidate === true"
+                                    class="btn btn-primary my-2">Submit</button>
+                                <button type="submit" disabled="disabled" v-else
+                                    class="btn btn-primary my-2">Submit</button>
                             </div>
                         </div>
                     </form>
