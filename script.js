@@ -24,7 +24,10 @@ const app = new Vue({
         },
         removeFromCart: function (id) {
             const cartItem = this.carts.find((cart) => cart.id === id)
-            if (cartItem) {
+            if (cartItem.count > 1) {
+                cartItem.count--
+            }
+            else {
                 this.carts = this.carts.filter((cart) => cart.id !== id)
             }
             const removedLesson = this.lessons.find((lesson) => lesson.id === id)
