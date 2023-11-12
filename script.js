@@ -40,9 +40,6 @@ const app = new Vue({
         handleSubmit: function (e) {
             alert("Dear " + this.name + ",\n" + "Your order is received.")
         },
-        submitValidation: function () {
-            this.canSubmit = (phoneValidate && nameValidate) ? true : false
-        },
 
     },
     computed: {
