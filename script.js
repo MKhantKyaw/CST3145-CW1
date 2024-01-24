@@ -2,16 +2,18 @@ const app = new Vue({
     el: '#app',
     methods: {
         addClub: function (id) {
+            const selectedLesson = this.lessons.find((lesson) => lesson.id === id)
+            selectedLesson.spaces--
+
             const cartItem = this.carts.find((cart) => cart.id === id)
             if (cartItem) {
                 cartItem.count++
+                cartItem.spaces--
             }
             else {
                 const addedLesson = this.lessons.find((lesson) => lesson.id === id)
                 this.carts.push({ ...addedLesson, count: 1 })
             }
-            const selectedLesson = this.lessons.find((lesson) => lesson.id === id)
-            selectedLesson.spaces--
         },
         canAddToCart: function (id) {
             const selectedLesson = this.lessons.find((lesson) => lesson.id === id)
@@ -31,14 +33,73 @@ const app = new Vue({
                 this.carts = this.carts.filter((cart) => cart.id !== id)
             }
             const removedLesson = this.lessons.find((lesson) => lesson.id === id)
-            removedLesson.spaces += cartItem.count
+            removedLesson.spaces++
             if (this.carts.length === 0) {
                 this.currentPage = "activities"
             }
         },
+        search: async function () {
+            try {
+                if (this.searchQuery === "") {
+                    return this.lessons
+                }
+                else {
+                    const res = await fetch("http://127.0.0.1:5000/api/lessons/search/" + this.searchQuery + "?sortCategory=subject&sortOrder=ascending")
+                    this.lessons = await res.json()
+                }
+            } catch (err) {
+                console.log(err)
+            }
+        },
 
-        handleSubmit: function (e) {
-            alert("Dear " + this.name + ",\n" + "Your order is received.")
+        sortItems: async function () {
+            try {
+                const res = await fetch(`http://127.0.0.1:5000/api/lessons?sortCategory=${this.selectedSortCategory}&sortOrder=${this.sortOrder}`)
+                this.lessons = await res.json()
+            } catch (err) {
+                console.log(err)
+            }
+        },
+
+        editLesson: function () {
+            try {
+                this.carts.forEach(async (lesson) => {
+                    await fetch("http://127.0.0.1:5000/api/lessons/" + lesson._id, {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(lesson)
+                    })
+                })
+            }
+            catch (err) {
+                console.log(err)
+            }
+        },
+
+        handleSubmit: async function (e) {
+            data = { name: this.name, phone: this.phone, lessons: this.carts }
+            e.preventDefault()
+            this.editLesson()
+            try {
+                const res = await fetch("http://127.0.0.1:5000/api/orders", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                })
+                this.editLesson()
+                if (res.status === 201) {
+                    this.name = null
+                    this.phone = null
+                    this.carts = []
+                    this.currentPage = "activities"
+                }
+            } catch (err) {
+                console.log(err)
+            }
         },
 
     },
@@ -52,24 +113,6 @@ const app = new Vue({
             return count
         },
 
-        searchItem: function () {
-            return this.lessons.filter((lesson) =>
-                lesson.subject.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                lesson.location.toLowerCase().includes(this.searchQuery.toLowerCase())
-            );
-        },
-        sortItem: function () {
-            const sortedItem = [...this.searchItem]
-            return sortedItem.sort((a, b) => {
-                const sortingOrder = this.sortOrder === 'ascending' ? 1 : -1
-                switch (this.selectedSortCategory) {
-                    case "subject": return sortingOrder * a.subject.toLowerCase().localeCompare(b.subject.toLowerCase()); break;
-                    case "location": return sortingOrder * a.location.toLowerCase().localeCompare(b.location.toLowerCase()); break;
-                    case "price": return sortingOrder * (a.price > b.price ? 1 : -1)
-                    case "spaces": return sortingOrder * (a.spaces > b.spaces ? 1 : -1)
-                }
-            })
-        },
 
         nameValidate: function () {
             this.errorMessage.name = ""
@@ -108,9 +151,10 @@ const app = new Vue({
     },
     data: {
         sitename: "After School Club",
-        lessons: lessons,
+        lessons: [],
         carts: [],
         searchQuery: "",
+        sortItem: [],
         selectedSortCategory: "subject",
         sortOrder: "ascending",
         currentPage: "activities",
@@ -118,6 +162,11 @@ const app = new Vue({
         phone: null,
         canSubmit: false,
         errorMessage: { name: "", phone: "" }
+    },
+    created: async function () {
+        const res = await fetch(`http://127.0.0.1:5000/api/lessons?sortCategory=${this.selectedSortCategory}&sortOrder=${this.sortOrder}`)
+        const data = await res.json()
+        this.lessons = data
     }
 });
 

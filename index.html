@@ -45,9 +45,10 @@
             <!-- activities  -->
             <div v-if="currentPage === 'activities'">
                 <h3 class="my-4">After school club and activities</h3>
-                <input type="text" v-model="searchQuery" class="form-control search" placeholder="Search">
+                <input type="text" v-model="searchQuery" @input="search" class="form-control search"
+                    placeholder="Search">
                 <div class="my-4">
-                    <select v-model="selectedSortCategory" class="form-select mb-4">
+                    <select v-model="selectedSortCategory" class="form-select mb-4" @change="sortItems">
                         <option value="subject" selected>Subject</option>
                         <option value="location">Location</option>
                         <option value="price">Price</option>
@@ -56,14 +57,14 @@
                     <div class="d-flex">
                         <div class="form-check mx-2">
                             <input v-model="sortOrder" value="ascending" class="form-check-input" type="radio"
-                                name="sort" id="ascendingOrder" checked>
+                                @change="sortItems" name="sort" id="ascendingOrder" checked>
                             <label class="form-check-label" for="ascendingOrder">
                                 Ascending
                             </label>
                         </div>
                         <div class="form-check">
                             <input v-model="sortOrder" value="descending" class="form-check-input" type="radio"
-                                name="sort" id="descendingOrder">
+                                @change="sortItems" name="sort" id="descendingOrder">
                             <label class="form-check-label" for="descendingOrder">
                                 Descending
                             </label>
@@ -71,7 +72,7 @@
                     </div>
                 </div>
                 <div class="row my-4">
-                    <div v-for="lesson in sortItem" :key="lesson.id" class="col-12 col-sm-12 col-md-6 col-lg-4 g-3">
+                    <div v-for="lesson in lessons" :key="lesson.id" class="col-12 col-sm-12 col-md-6 col-lg-4 g-3">
                         <div class="card">
                             <div class="d-flex justify-content-between p-4">
                                 <div class="p-2">
@@ -97,7 +98,7 @@
                                         class="btn btn-primary p-2 mt-2" value="Add to cart" />
                                 </div>
                                 <figure class="p-2">
-                                    <img v-bind:src="lesson.image">
+                                    <img v-bind:src="'http://127.0.0.1:5000/' + lesson.image">
                                 </figure>
                             </div>
                         </div>
@@ -133,7 +134,7 @@
                                         @click="removeFromCart(cart.id)" />
                                 </div>
                                 <figure class="p-2">
-                                    <img v-bind:src="cart.image">
+                                    <img v-bind:src="'http://127.0.0.1:5000/' + cart.image">
                                 </figure>
                             </div>
                         </div>
