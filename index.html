@@ -98,7 +98,7 @@
                                         class="btn btn-primary p-2 mt-2" value="Add to cart" />
                                 </div>
                                 <figure class="p-2">
-                                    <img v-bind:src="'http://127.0.0.1:5000/' + lesson.image">
+                                    <img v-bind:src="baseUrl +'/'+ lesson.image">
                                 </figure>
                             </div>
                         </div>
@@ -134,7 +134,7 @@
                                         @click="removeFromCart(cart.id)" />
                                 </div>
                                 <figure class="p-2">
-                                    <img v-bind:src="'http://127.0.0.1:5000/' + cart.image">
+                                    <img v-bind:src="baseUrl + '/' + cart.image">
                                 </figure>
                             </div>
                         </div>

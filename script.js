@@ -41,10 +41,11 @@ const app = new Vue({
         search: async function () {
             try {
                 if (this.searchQuery === "") {
-                    return this.lessons
+                    const res = await fetch(`${this.baseUrl}/api/lessons?sortCategory=${this.selectedSortCategory}&sortOrder=${this.sortOrder}`)
+                    this.lessons = await res.json()
                 }
                 else {
-                    const res = await fetch("http://127.0.0.1:5000/api/lessons/search/" + this.searchQuery + "?sortCategory=subject&sortOrder=ascending")
+                    const res = await fetch(this.baseUrl + "/api/lessons/search/" + this.searchQuery + "?sortCategory=subject&sortOrder=ascending")
                     this.lessons = await res.json()
                 }
             } catch (err) {
@@ -54,8 +55,13 @@ const app = new Vue({
 
         sortItems: async function () {
             try {
-                const res = await fetch(`http://127.0.0.1:5000/api/lessons?sortCategory=${this.selectedSortCategory}&sortOrder=${this.sortOrder}`)
-                this.lessons = await res.json()
+                if (this.searchQuery === "") {
+                    const res = await fetch(`${this.baseUrl}/api/lessons?sortCategory=${this.selectedSortCategory}&sortOrder=${this.sortOrder}`)
+                    this.lessons = await res.json()
+                } else {
+                    const res = await fetch(`${this.baseUrl}/api/lessons/search/${this.searchQuery}?sortCategory=${this.selectedSortCategory}&sortOrder=${this.sortOrder}`)
+                    this.lessons = await res.json()
+                }
             } catch (err) {
                 console.log(err)
             }
@@ -64,7 +70,7 @@ const app = new Vue({
         editLesson: function () {
             try {
                 this.carts.forEach(async (lesson) => {
-                    await fetch("http://127.0.0.1:5000/api/lessons/" + lesson._id, {
+                    await fetch(this.baseUrl + "/api/lessons/" + lesson._id, {
                         method: "PUT",
                         headers: {
                             "Content-Type": "application/json"
@@ -83,7 +89,7 @@ const app = new Vue({
             e.preventDefault()
             this.editLesson()
             try {
-                const res = await fetch("http://127.0.0.1:5000/api/orders", {
+                const res = await fetch(this.baseUrl + "/api/orders", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -150,6 +156,7 @@ const app = new Vue({
 
     },
     data: {
+        baseUrl: "https://after-school-app-env.eba-z8iud9j4.eu-west-2.elasticbeanstalk.com",
         sitename: "After School Club",
         lessons: [],
         carts: [],
@@ -164,7 +171,7 @@ const app = new Vue({
         errorMessage: { name: "", phone: "" }
     },
     created: async function () {
-        const res = await fetch(`http://127.0.0.1:5000/api/lessons?sortCategory=${this.selectedSortCategory}&sortOrder=${this.sortOrder}`)
+        const res = await fetch(`${this.baseUrl}/api/lessons?sortCategory=${this.selectedSortCategory}&sortOrder=${this.sortOrder}`)
         const data = await res.json()
         this.lessons = data
     }
