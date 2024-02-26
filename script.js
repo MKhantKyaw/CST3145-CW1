@@ -156,7 +156,8 @@ const app = new Vue({
 
     },
     data: {
-        baseUrl: "https://after-school-app-env.eba-z8iud9j4.eu-west-2.elasticbeanstalk.com",
+        // baseUrl: "https://after-school-app-env.eba-z8iud9j4.eu-west-2.elasticbeanstalk.com",
+        baseUrl: "http://127.0.0.1:5000",
         sitename: "After School Club",
         lessons: [],
         carts: [],
@@ -174,6 +175,10 @@ const app = new Vue({
         const res = await fetch(`${this.baseUrl}/api/lessons?sortCategory=${this.selectedSortCategory}&sortOrder=${this.sortOrder}`)
         const data = await res.json()
         this.lessons = data
+
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("/service-worker.js")
+        }
     }
 });
 

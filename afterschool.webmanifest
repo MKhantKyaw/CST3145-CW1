@@ -1,0 +1,34 @@
+{
+    "name": "After School Club PWA",
+    "short_name": "School Club",
+    "description": "My online After School Club PWA!",
+    "icons": [
+        {
+            "src": "images/afterschool_64x64.png",
+            "sizes": "64x64",
+            "type": "image/png"
+        },
+        {
+            "src": "images/afterschool_512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "/images/screenshot1.png",
+            "type": "image/png",
+            "sizes": "877x910",
+            "form_factor": "narrow"
+        },
+        {
+            "src": "/images/screenshot2.png",
+            "type": "image/jpg",
+            "sizes": "1287x908",
+            "form_factor": "wide"
+        }
+    ],
+    "start_url": "index.html",
+    "display": "fullscreen",
+    "background_color": "#260bca"
+}
