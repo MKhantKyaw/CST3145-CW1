@@ -16,13 +16,13 @@
     ],
     "screenshots": [
         {
-            "src": "images/screenshot1.png",
+            "src": "https://mkhantkyaw.github.io/CST3145-CW1/images/screenshot1.png",
             "type": "image/png",
             "sizes": "877x910",
             "form_factor": "narrow"
         },
         {
-            "src": "images/screenshot2.png",
+            "src": "https://mkhantkyaw.github.io/CST3145-CW1/images/screenshot2.png",
             "type": "image/jpg",
             "sizes": "1287x908",
             "form_factor": "wide"
