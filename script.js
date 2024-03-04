@@ -156,8 +156,8 @@ const app = new Vue({
 
     },
     data: {
-        // baseUrl: "https://after-school-app-env.eba-z8iud9j4.eu-west-2.elasticbeanstalk.com",
-        baseUrl: "http://127.0.0.1:5000",
+        baseUrl: "https://after-school-app-env.eba-msnmp9d3.eu-west-2.elasticbeanstalk.com",
+        // baseUrl: "http://127.0.0.1:5000",
         sitename: "After School Club",
         lessons: [],
         carts: [],
